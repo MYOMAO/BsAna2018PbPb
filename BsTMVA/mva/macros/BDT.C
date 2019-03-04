@@ -2,9 +2,9 @@
 #include "../header.h"
 
 //#include "TMVA_BDT_PbPb_15_50_varStage1.class.C"
-#define MAX_XB       10000
+#define MAX_XB       100000
 
-void BDTG(TString inputname, TString outputname,
+void BDT(TString inputname, TString outputname,
 		Float_t ptmin, Float_t ptmax, TString mvatype)
 {
 	void makeoutput(TString infname, TString ofname, TString treename);
@@ -42,7 +42,7 @@ void makeoutput(TString infname, TString ofname, TString treename)
 	t->SetBranchAddress("Bchi2cl", Bchi2cl);
 	t->SetBranchAddress("BsvpvDistance", BsvpvDistance);
 	t->SetBranchAddress("BsvpvDisErr", BsvpvDisErr);
-	//  t->SetBranchAddress("MVA", MVA);
+	 //  t->SetBranchAddress("MVA", MVA);
 	t->SetBranchAddress("Bd0", Bd0);
 	t->SetBranchAddress("Bd0Err", Bd0Err);
 	t->SetBranchAddress("Btrk1Pt", Btrk1Pt);
@@ -66,8 +66,8 @@ void makeoutput(TString infname, TString ofname, TString treename)
 	
 	std::string a3 = "Btrk1Eta";
 	std::string a4 = "Btrk2Eta";
-//	std::string a5 = "Btrk1Dxy/Btrk1D0Err";
-//	std::string a6 = "Btrk2Dxy/Btrk2D0Err";
+	std::string a5 = "Btrk1Dxy/Btrk1D0Err";
+	std::string a6 = "Btrk2Dxy/Btrk2D0Err";
 	std::string a7 = "abs(Btktkmass-1.019455)";
 	std::string a8 = "BsvpvDistance/BsvpvDisErr";
 	std::string a9 = "Balpha";
@@ -79,8 +79,8 @@ void makeoutput(TString infname, TString ofname, TString treename)
 	theInputVars.push_back(a2);
 	theInputVars.push_back(a3);
 	theInputVars.push_back(a4);
-//	theInputVars.push_back(a5);
-//	theInputVars.push_back(a6);
+	theInputVars.push_back(a5);
+	theInputVars.push_back(a6);
 	theInputVars.push_back(a7);
 	theInputVars.push_back(a8);
 	theInputVars.push_back(a9);
@@ -90,18 +90,18 @@ void makeoutput(TString infname, TString ofname, TString treename)
 	
 
 	std::vector<double> inputValues;
-	ReadBDTG mva(theInputVars);
+	ReadBDT mva(theInputVars);
 
 	TFile* outf = new TFile(ofname,"recreate");
-	TTree* mvaTree = new TTree(Form("%s",treename.Data()),"BDTG");
+	TTree* mvaTree = new TTree(Form("%s",treename.Data()),"BDT");
 
-	double BDTG[MAX_XB];
+	double BDT[MAX_XB];
 	mvaTree->Branch("Bsize",&Bsize,"Bsize/I");
-	mvaTree->Branch(Form("%s",treename.Data()),BDTG,Form("%s[Bsize]/D",treename.Data()));
+	mvaTree->Branch(Form("%s",treename.Data()),BDT,Form("%s[Bsize]/D",treename.Data()));
 	std::cout<<std::endl;
 	std::cout<<"  Input file: "<<infname<<std::endl;
 	std::cout<<"  Calculating MVA values ..."<<std::endl;
-	for(int i=0;i<100;i++)
+	for(int i=0;i< t->GetEntries();i++)
 	{
 		if(i%100==0) std::cout<<std::setiosflags(std::ios::left)<<"  [ \033[1;36m"<<std::setw(10)<<i<<"\033[0m"<<" / "<<std::setw(10)<<t->GetEntries()<<" ] "<<"\033[1;36m"<<Form("%.0f",100.*i/t->GetEntries())<<"%\033[0m"<<"\r"<<std::flush;
 		t->GetEntry(i);
@@ -115,8 +115,8 @@ void makeoutput(TString infname, TString ofname, TString treename)
 			
 			inputValues.push_back(Btrk1Eta[j]);
 			inputValues.push_back(Btrk2Eta[j]);
-//			inputValues.push_back(Btrk1Dxy[j]/Btrk1D0Err[j]);
-//			inputValues.push_back(Btrk2Dxy[j]/Btrk2D0Err[j]);
+			inputValues.push_back(Btrk1Dxy[j]/Btrk1D0Err[j]);
+			inputValues.push_back(Btrk2Dxy[j]/Btrk2D0Err[j]);
 			inputValues.push_back(abs(Btktkmass[j]-1.019455));
 			inputValues.push_back(BsvpvDistance[j]/BsvpvDisErr[j]);
 			inputValues.push_back(Balpha[j]);
@@ -124,7 +124,7 @@ void makeoutput(TString infname, TString ofname, TString treename)
 			inputValues.push_back(cos(Bdtheta[j]));
 			inputValues.push_back(Bchi2cl[j]);
 			
-			BDTG[j] = mva.GetMvaValue(inputValues);      
+			BDT[j] = mva.GetMvaValue(inputValues);      
 		}
 
 		mvaTree->Fill();
@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
 {
 	if(argc==6)
 	{
-		BDTG(argv[1],argv[2],atof(argv[3]),atof(argv[4]),argv[5]);
+		BDT(argv[1],argv[2],atof(argv[3]),atof(argv[4]),argv[5]);
 		return 0;
 	}
 	else
