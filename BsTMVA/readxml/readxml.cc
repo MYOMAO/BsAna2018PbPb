@@ -91,7 +91,7 @@ void readxml(TString inputSname, TString inputBname, TString outputname,
 
 	TTree* generated = (TTree*)inputS->Get("Bfinder/ntGen");
 	generated->AddFriend("hiEvtAnalyzer/HiTree");
-	
+
 	//generated->AddFriend("ntHlt");
 	//	generated->AddFriend("ntHi");
 
@@ -132,7 +132,7 @@ void readxml(TString inputSname, TString inputBname, TString outputname,
 TH2F* hemptydis = new TH2F("hemptydis",Form(";%s;Probability",mvatype.Data()),50,-1.2,1.2,10,0.,hdisEffB->GetMaximum()*1.4);
 //TH2F* hemptydis = new TH2F("hemptydis",Form(";%s;Probability",mvatype.Data()),1000,-0.8,1.0,10,0.,hdisEffB->GetMaximum()*1.4);
 sethempty(hemptydis);
-	TLatex* texPt = new TLatex(0.22,0.823, Form("%.0f < D^{0} p_{T} < %.0f GeV",ptmin,ptmax));
+	TLatex* texPt = new TLatex(0.22,0.823, Form("%.0f < B_{s} p_{T} < %.0f GeV",ptmin,ptmax));
 	texPt->SetNDC();
 	texPt->SetTextAlign(12);
 	texPt->SetTextSize(0.045);

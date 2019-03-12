@@ -19,7 +19,7 @@ Double_t BR = 3.1189e-5;
 Double_t deltapt = 0.25;
 
 Float_t massD = 5.36682;
-Float_t dmassDsignal = 0.10;
+Float_t dmassDsignal = 0.08;
 Float_t dmassDsidbandL = 0.20;
 Float_t dmassDsidbandH = 0.30;
 Float_t massDsignalL = massD - dmassDsignal;
@@ -51,7 +51,7 @@ int calRatio(TTree* signal, TTree* background, TTree* generated,
 	
 
 
-	TH1D* hMassD = new TH1D("hMassD",";B mass (GeV/c^{2});Background Entries",60,1.7,2.0);
+	TH1D* hMassD = new TH1D("hMassD",";B mass (GeV/c^{2});Background Entries",50,5.0,6.0);
 	background->Project("hMassD","Bmass",cutb);
 //	Float_t nB = hMassD->Integral()*dmassDsignal/(dmassDsidbandH-dmassDsidbandL);
 
@@ -86,7 +86,7 @@ int calRatio(TTree* signal, TTree* background, TTree* generated,
 
 
 
-	TH1D* hfonll = new TH1D("hfonll",";D p_{T} (GeV/c);FONLL differential xsection",nbin-1,fpt);
+	TH1D* hfonll = new TH1D("hfonll",";B_{s} p_{T} (GeV/c);FONLL differential xsection",nbin-1,fpt);
 	for(int i=0;i<nbin;i++)
 	{
 		hfonll->SetBinContent(i,fcentral[i]);
@@ -98,9 +98,9 @@ int calRatio(TTree* signal, TTree* background, TTree* generated,
 	hMassD->Draw();
 	cfonll->SaveAs("plots/bkgdmass.png");
 
-	TH1D* hrec = new TH1D("hrec",";D p_{T} (GeV/c);Signal reco entries",nbin-1,fpt);
-	TH1D* hgen = new TH1D("hgen",";D p_{T} (GeV/c);Generated entries",nbin-1,fpt);
-	TH1D* heff = new TH1D("heff",";D p_{T} (GeV/c);Prefilter efficiency",nbin-1,fpt);
+	TH1D* hrec = new TH1D("hrec",";B_{s} p_{T} (GeV/c);Signal reco entries",nbin-1,fpt);
+	TH1D* hgen = new TH1D("hgen",";B_{s} p_{T} (GeV/c);Generated entries",nbin-1,fpt);
+	TH1D* heff = new TH1D("heff",";B_{s} p_{T} (GeV/c);Prefilter efficiency",nbin-1,fpt);
 	signal->Project("hrec","Bpt",Form("%s*(%s)",weightfunctionreco.Data(),cuts.Data()));
 	generated->Project("hgen","Gpt",Form("%s*(%s)",weightfunctiongen.Data(),cutg.Data()));
 	cout << "Gen Cut = " << Form("%s*(%s)",weightfunctiongen.Data(),cutg.Data()) << endl;
