@@ -112,8 +112,11 @@ void MCefficiency(int isPbPb=0, TString inputmc="", TString selmcgen="", TString
 	ntMC->AddFriend("hltanalysis/HltTree");
 	ntMC->AddFriend("hiEvtAnalyzer/HiTree");
 	ntMC->AddFriend("skimanalysis/HltTree");
-	ntMC->AddFriend("BDT_pt_15_50");
+	ntMC->AddFriend("BDT_pt_15_20");
 	ntMC->AddFriend("BDT_pt_7_15");
+	ntMC->AddFriend("BDT_pt_20_50");
+	ntMC->AddFriend("BDT_pt_5_7");
+
 	ntMC->AddFriend("Bfinder/ntGen");
 	ntGen->AddFriend("hiEvtAnalyzer/HiTree");
 	ntGen->AddFriend("Bfinder/ntphi");
@@ -326,7 +329,7 @@ void MCefficiency(int isPbPb=0, TString inputmc="", TString selmcgen="", TString
 	//hEffOneShot = hPtMC / hPtGen
 
 	TString text;
-	if (isPbPb) { text="351 #mub^{-1} (5.02 TeV PbPb)";}
+	if (isPbPb) { text="1.5 nb^{-1} (5.02 TeV PbPb)";}
 	else {text="28.0 pb^{-1} (5.02 TeV pp)";}
 	TLatex* texlumi = new TLatex(0.9,0.92,text.Data());
 	texlumi->SetNDC();

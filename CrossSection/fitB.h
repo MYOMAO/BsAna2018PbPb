@@ -59,8 +59,8 @@ TF1 *fit(T* c, TCanvas* cMC, TH1D* h, TH1D* hMCSignal, Double_t ptmin, Double_t 
 	cout<<"total data: "<<h->GetEntries()<<endl;
 	TString iNP = npfit;
     TString funcform = "";
-	//TString sigfunc = "[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))";
-	TString sigfunc = "[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*([9]*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8])+(1-[9])*Gaus(x,[1],[10])/(sqrt(2*3.14159)*[10])))";
+	TString sigfunc = "[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))";
+	//TString sigfunc = "[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*([9]*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8])+(1-[9])*Gaus(x,[1],[10])/(sqrt(2*3.14159)*[10])))";
 	//TString sigfunc = "[0]*([7]*exp(-0.5*((x-[1])/[2])^2)/(sqrt(2*3.14159)*[2])+(1-[7])*exp(-0.5*((x-[1])/[8])^2)/(sqrt(2*3.14159)*[8]))";
 	//TString bkgfunc = "[3]+[4]*x+[5]*x*x";
 	//TString bkgfunc = "[3]+[4]*x";

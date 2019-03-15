@@ -71,8 +71,11 @@ void fitB(int usePbPb = 0, int fitOnSaved = 0, TString inputdata = "", TString i
 		nt->AddFriend("hltanalysis/HltTree");
 		nt->AddFriend("hiEvtAnalyzer/HiTree");
 		nt->AddFriend("skimanalysis/HltTree");
-		nt->AddFriend("BDT_pt_15_50");
+		nt->AddFriend("BDT_pt_15_20");
 		nt->AddFriend("BDT_pt_7_15");
+		nt->AddFriend("BDT_pt_5_7");
+		nt->AddFriend("BDT_pt_20_50");	
+	
 		/*
 		   ntGen = (TTree*)infMC->Get("ntGen");
 		   ntGen->AddFriend("ntHlt");
@@ -98,8 +101,11 @@ void fitB(int usePbPb = 0, int fitOnSaved = 0, TString inputdata = "", TString i
 		ntMC->AddFriend("hltanalysis/HltTree");
 		ntMC->AddFriend("hiEvtAnalyzer/HiTree");
 		ntMC->AddFriend("skimanalysis/HltTree");
-		ntMC->AddFriend("BDT_pt_15_50");
+		ntMC->AddFriend("BDT_pt_15_20");
 		ntMC->AddFriend("BDT_pt_7_15");
+		ntMC->AddFriend("BDT_pt_5_7");
+		ntMC->AddFriend("BDT_pt_20_50");	
+
 		ntMC->AddFriend("Bfinder/ntGen");
 	}
 

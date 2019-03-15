@@ -2,18 +2,17 @@ using namespace std;
 #include "uti.h"
 #include "parameters.h"
 
-double setparam0=100.;
+double setparam0=50000.;
 double setparam1=5.36682;
-double setparam2=0.02;
+double setparam2=0.01;
 double setparam3=0.06;
 double fixparam1=5.36682;
-
 //Double_t minhisto=5.0;
 //Double_t maxhisto=6.0;
 //Double_t nbinsmasshisto=50;
-Double_t minhisto=5.03;
-Double_t maxhisto=5.99;
-Double_t nbinsmasshisto=24;
+Double_t minhisto=5.00;
+Double_t maxhisto=6.00;
+Double_t nbinsmasshisto=50;
 Double_t binwidthmass=(maxhisto-minhisto)/nbinsmasshisto;
 
 
@@ -66,15 +65,17 @@ TF1* fit(Float_t ptmin, Float_t ptmax, TString npfit)
 
 //    TF1 *f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2])/(sqrt(2*3.14159)*[2])+(1-[7])*Gaus(x,[1],[8])/(sqrt(2*3.14159)*[8]))+[3]+[4]*x+[5]*x*x+[6]*x*x*x+[11]*("+iNP+")");
 
-		TF1 *f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2]*(1+[12]))/(sqrt(2*3.14159)*[2]*(1+[12]))+(1-[7])*Gaus(x,[1],[8]*(1+[12]))/(sqrt(2*3.14159)*[8]*(1+[12])))+[3]+[4]*x+[5]*x*x+[6]*x*x*x+[11]*("+iNP+")");
+		TF1 *f = new TF1(Form("f%d",count),"[0]*([7]*Gaus(x,[1],[2]*(1+[12]))/(sqrt(2*3.14159)*[2]*(1+[12]))+(1-[7])*Gaus(x,[1],[8]*(1+[12]))/(sqrt(2*3.14159)*[8]*(1+[12])))+[3]+[4]*x+[5]*x*x+[11]*("+iNP+")");
 
 
 	//h->Draw();
 	f->SetParLimits(4,-1000,1000);
-	f->SetParLimits(2,0.01,0.05);
-	f->SetParLimits(8,0.01,0.05);
+	f->SetParLimits(2,0.01,0.10);
+	f->SetParLimits(8,0.01,0.10);
 	f->SetParLimits(7,0,1);
 	f->SetParLimits(11,0,1000);
+	f->SetParLimits(9,0,1);
+	f->SetParLimits(10,0.01,0.10);
 
 	f->SetParameter(0,setparam0);
 	f->SetParameter(1,setparam1);
