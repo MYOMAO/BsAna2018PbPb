@@ -390,6 +390,16 @@ TF1 *fit(T* c, TCanvas* cMC, TH1D* h, TH1D* hMCSignal, Double_t ptmin, Double_t 
 	texYield->SetTextSize(0.04);
 	texYield->SetLineWidth(2);
 
+	int nDigit_yieldErr = 3;
+	yieldErr = roundToNdigit(yieldErr);
+    nDigit_yieldErr = sigDigitAfterDecimal(yieldErr);
+    TLatex* texYieldErr = new TLatex(0.55,0.34,Form("YieldErr = %.*f", nDigit_yieldErr, yieldErr));
+	texYieldErr->SetNDC();
+	texYieldErr->SetTextFont(42);
+	texYieldErr->SetTextSize(0.04);
+	texYieldErr->SetLineWidth(2);
+
+
 	TF1* t = (TF1*)h->GetFunction(Form("f%d",_count))->Clone();
 	h->GetFunction(Form("f%d",_count))->Delete();
 	t->Draw("same");
@@ -399,6 +409,7 @@ TF1 *fit(T* c, TCanvas* cMC, TH1D* h, TH1D* hMCSignal, Double_t ptmin, Double_t 
         texChi->Draw();
         texSig->Draw("SAME");
         texYield->Draw("SAME");
+		texYieldErr->Draw("SAME");
     }
 	f->Write();
 	h->Write();

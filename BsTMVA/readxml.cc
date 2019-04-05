@@ -76,14 +76,20 @@ void readxml(TString inputSname, TString inputBname, TString outputname,
 	TFile* inputB = new TFile(inputBname.Data());
 
 	TTree* background = (TTree*)inputB->Get("Bfinder/ntphi");
+
 	//	background->AddFriend("ntHlt");
 	//	background->AddFriend("ntHi");
 	//	background->AddFriend("ntSkim");
 	background->AddFriend(Form("%s_pt_%.0f_%.0f",mvatype.Data(),ptmin,ptmax));
+	background->AddFriend("hiEvtAnalyzer/HiTree");
+	background->AddFriend("skimanalysis/HltTree");
+	background->AddFriend("hltanalysis/HltTree");
+
 	cout << "background Total = " << background->GetEntries() << endl;
 	TTree* signal = (TTree*)inputS->Get("Bfinder/ntphi");
 	signal->AddFriend("hiEvtAnalyzer/HiTree");
-
+	signal->AddFriend("hltanalysis/HltTree");
+	signal->AddFriend("skimanalysis/HltTree");
 	//signal->AddFriend("ntHlt");
 	//	signal->AddFriend("ntHi");
 	//	signal->AddFriend("ntSkim");

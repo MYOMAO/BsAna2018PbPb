@@ -180,7 +180,7 @@ void CrossSectionRatio(TString inputFONLL="ROOTfiles/output_inclusiveDd0meson_5T
 	TLatex* texlumi = new TLatex(0.95,1-(1-0.94)/tpadr,text.Data());
 	if (addpbpb) texlumi = new TLatex(0.96,0.95,"28 pb^{-1} (pp) + 351 #mub^{-1} (PbPb) 5.02 TeV");
 	if (label=="PbPb") {
-		text="351 #mub^{-1} (PbPb 5.02 TeV)";
+		text="1.5 nb^{-1} (PbPb 5.02 TeV)";
 		texlumi = new TLatex(0.945,1-(1-0.94)/tpadr,text.Data());
 	}
 	texlumi->SetNDC();

@@ -1,24 +1,24 @@
 #!/bin/bash
 
-DOTMVA=0
-DOMAKEVAR=0
-DOMERGE=0
+DOTMVA=1
+DOMAKEVAR=1
+DOMERGE=1
 DOREADXML=1
 # modify OUTPUTDIR to a path you can write in #
 #OUTPUTDIR="/raid5/data/szhaozho/2019CMSTask/BTMVA/TMVAMerge"
-OUTPUTDIR="/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/2018Ana/BsTMVA/TMVAHigh/"
+OUTPUTDIR="/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/2018Ana/BsTMVA/TMVAHigh4BinsRedoAll/"
 if [ ! -d $OUTPUTDIR ]
 then
     mkdir -p $OUTPUTDIR
 fi
 
 
-PTMIN=(7 15 30)
-PTMAX=(15 30 50)
-#PTMIN=( 15 )
-#PTMAX=( 30 )
+PTMIN=( 5 7 15 20)
+PTMAX=( 7 15 20 50)
+#PTMIN=( 20 )
+#PTMAX=( 50 )
 
-RAA=(0.30 0.50 0.70)
+RAA=(0.30 0.30 0.80 0.80 )
 
 MVA=('BDT')
 weightfunctiongen=('pthatweight')
@@ -26,7 +26,7 @@ weightfunctionreco=('pthatweight')
 
 
 
-COLSYST=('pp')
+COLSYST=('PbPb')
 #LUMI=(1.908195e-03)
 LUMI=(56.564165324)
 OUTPUTSNAME=('MC_Bs_pp')
@@ -41,18 +41,18 @@ OUTPUTBNAME=('Data_Bs_pp')
 #INPUTBNAME=('/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/ToCopy/Data/New/crab_Bfinder_20181220_HIDoubleMuon_HIRun2018A_PromptReco_v1v2_1031_NoJSON_skimhltBsize_ntphi.root')
 #INPUTBNAME=('/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/ToCopy/Data/New/crab_Bfinder_20181220_HIDoubleMuon_HIRun2018A_PromptReco_v1_1031_NoJSON_skimhltBsize_ntphi.root')
 
-
-INPUTSNAME=('/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/ToCopy/MC/crab_Bfinder_20190115_Hydjet_Pythia8_BsToJpsiPhi_20181231_pt5tkpt0p7dls2_v3_pthatweight.root')
+INPUTSNAME=('/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/2018Ana/BsRAA2015RunII/PthatService/output/PthatMergedreweighted.root')
+#INPUTSNAME=('/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/ToCopy/MC/crab_Bfinder_20190115_Hydjet_Pythia8_BsToJpsiPhi_20181231_pt5tkpt0p7dls2_v3_pthatweight.root')
 INPUTBNAME=('/export/d00/scratch/zzshi/CMSSW_7_5_8_patch3/Merge/ToCopy/Data/New/crab_Bfinder_20181220_HIDoubleMuon_HIRun2018A_PromptReco_v1v2_1031_NoJSON_skimhltBsize_ntphi.root')
 
-CUT=('Btrk1Pt > 1 && Btrk2Pt > 1 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2 && Bpt > 5 && abs(Btrk1Eta-0.0) < 2.4  && abs(Btrk2Eta-0.0) < 2.4')
-
+CUT=('Btrk1Pt > 1 && Btrk2Pt > 1 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2 && Bpt > 5 && abs(Btrk1Eta-0.0) < 2.4  && abs(Btrk2Eta-0.0) < 2.4 && (TMath::Abs(By)<2.4&&TMath::Abs(Bmumumass-3.096916)<0.15&&((abs(Bmu1eta)<1.2&&Bmu1pt>3.5)||(abs(Bmu1eta)>1.2&&abs(Bmu1eta)<2.1&&Bmu1pt>(5.77-1.8*abs(Bmu1eta)))||(abs(Bmu1eta)>2.1&&abs(Bmu1eta)<2.4&&Bmu1pt>1.8))&&((abs(Bmu2eta)<1.2&&Bmu2pt>3.5)||(abs(Bmu2eta)>1.2&&abs(Bmu2eta)<2.1&&Bmu2pt>(5.77-1.8*abs(Bmu2eta)))||(abs(Bmu2eta)>2.1&&abs(Bmu2eta)<2.4&&Bmu2pt>1.8))&&Bmu1TMOneStationTight&&Bmu2TMOneStationTight&&Bmu1InPixelLayer>0&&(Bmu1InPixelLayer+Bmu1InStripLayer)>5&&Bmu2InPixelLayer>0&&(Bmu2InPixelLayer+Bmu2InStripLayer)>5&&Bmu1dxyPV<0.3&&Bmu2dxyPV<0.3&&Bmu1dzPV<20&&Bmu2dzPV<20&&Bmu1isGlobalMuon&&Bmu2isGlobalMuon&&Btrk1highPurity&&Btrk2highPurity&&abs(Btrk1Eta)<2.4&&abs(Btrk2Eta)<2.4&&Btrk1Pt>1.&&Btrk2Pt>1.&&abs(Btktkmass-1.019455)<0.015) && (abs(PVz)<15&&pclusterCompatibilityFilter&&pprimaryVertexFilter) && (Btrk1PixelHit + Btrk1StripHit > 10) && (Btrk2PixelHit + Btrk2StripHit > 10) && (Btrk1PtErr/Btrk1Pt < 0.1)&& (Btrk2PtErr/Btrk2Pt < 0.1) && Btrk1Chi2ndf/(Btrk1nStripLayer+Btrk1nPixelLayer) < 0.18 && Btrk2Chi2ndf/(Btrk2nStripLayer+Btrk2nPixelLayer) < 0.18')
+#CUT=('Btrk1Pt > 1 && Btrk2Pt > 1 && Bchi2cl > 0.05 && BsvpvDistance/BsvpvDisErr > 2 && Bpt > 5 && abs(Btrk1Eta-0.0) < 2.4  && abs(Btrk2Eta-0.0) < 2.4')
 
 MYCUTS=("(${CUT[0]}&&Bgen==23333)")
 
 MYCUTB=("${CUT[0]}&& abs(Bmass - 5.36682 ) > 0.20 &&  abs(Bmass - 5.36682) < 0.30")
 
-MYCUTG=("(Gy>-1.00&&Gy<1.00)");
+MYCUTG=("(Gy>-2.40&&Gy<2.40)");
 
 
 # do not touch the lines below if you don't know what they mean #

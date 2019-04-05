@@ -25,6 +25,8 @@ using std::endl;
 
 void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TString SignalCut, TString SideBandCut,TString GenCut ){
 
+
+	int doDebug = 1;
 	gStyle->SetPadRightMargin(0.043);
 	gStyle->SetPadLeftMargin(0.18);
 	gStyle->SetPadTopMargin(0.1);
@@ -58,14 +60,18 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 	for(int j = 0; j < NBins;j++){
 		cout << "ptL = " << ptBins[j] << "  ptU = " << ptBins[j+1] << endl;
 
-	TString ptCuts = Form("(Bpt > %f && Bpt < %f)",ptBins[j],ptBins[j+1]);
-	TString	SignalCutMC = Form("%s * ((%s)&&(%s))",weightfunctionreco.Data(),SignalCut.Data(),ptCuts.Data());
-	TString	SideBandCutMC = Form("%s * ((%s)&&(%s))",weightfunctionreco.Data(),SideBandCut.Data(),ptCuts.Data());
-	TString	GenCutMC = Form("%s * ((%s)&&(%s))",weightfunctionreco.Data(),GenCut.Data(),ptCuts.Data());
+		TString ptCuts = Form("(Bpt > %f && Bpt < %f)",ptBins[j],ptBins[j+1]);
+		TString	SignalCutMC = Form("%s * ((%s)&&(%s))",weightfunctionreco.Data(),SignalCut.Data(),ptCuts.Data());
+		TString	SideBandCutMC = Form("%s * ((%s)&&(%s))",weightfunctionreco.Data(),SideBandCut.Data(),ptCuts.Data());
+		TString	GenCutMC = Form("%s * ((%s)&&(%s))",weightfunctionreco.Data(),GenCut.Data(),ptCuts.Data());
 
-	cout << "GenCutMC = " << GenCutMC.Data() << endl;
-	//	double Dymin = (collsyst == "pp")?ppDymin:pPbDymin;
-	//	double Dymax = (collsyst == "pp")?ppDymax:pPbDymax;
+		TString SideBandCutData = Form("(%s)&&(%s)",SideBandCut.Data(),ptCuts.Data());
+		TString SignalCutData = Form("(%s)&&(%s)",SignalCut.Data(),ptCuts.Data());
+
+
+		cout << "GenCutMC = " << GenCutMC.Data() << endl;
+		//	double Dymin = (collsyst == "pp")?ppDymin:pPbDymin;
+		//	double Dymax = (collsyst == "pp")?ppDymax:pPbDymax;
 
 
 		/*
@@ -75,7 +81,7 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 		   HisBMC[0] =  new TH1D("pthisBMC","pthisBMC",Npt,ptmin,ptmax);
 		//	 HisYMC[0] =  new TH1D("pthisYMC","pthisYMC",Npt.ptmin,ptmax);  
 		HisGMC[0] =  new TH1D("pthisGMC","pthisGMC",Npt,ptmin,ptmax);  
- "
+		"
 		HisSData[1] =  new TH1D("alphahisSData","alphahisSData",Nalpha,alphamin,alphamax);
 		HisBData[1] =  new TH1D("alphahisBData","alphahisBData",Nalpha,alphamin,alphamax);  
 		HisSMC[1] =  new TH1D("alphahisSMC","alphahisSMC",Nalpha,alphamin,alphamax);
@@ -122,7 +128,7 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 		nt->AddFriend("hltanalysis/HltTree");
 		nt->AddFriend("hiEvtAnalyzer/HiTree");  
 		nt->AddFriend("skimanalysis/HltTree");
-//		nt->AddFriend("ntGen");
+		//		nt->AddFriend("ntGen");
 		nt->AddFriend("BDT_pt_7_15");
 		nt->AddFriend("BDT_pt_15_20");
 		nt->AddFriend("BDT_pt_20_50");
@@ -135,6 +141,7 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 		ntMC->AddFriend("BDT_pt_7_15");
 		ntMC->AddFriend("BDT_pt_15_20");
 		ntMC->AddFriend("BDT_pt_20_50");
+
 
 
 
@@ -154,19 +161,19 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 			HisSData[i] = new TH1D(VarSData[i].Data(),VarSData[i].Data(),Binning[i],Min[i],Max[i]);
 			//	HisSData[i] = new TH1D(VarSData[i].Data(),VarSData[i].Data(),6,DyBin);
 			//	cout << "Binning = "  <<  Binning[i] << " Min = " << Min[i] << "  Max =" <<  Max[i] << endl;
-			nt->Project(VarSData[i].Data(),Var[i].Data(),SignalCut.Data());
+			nt->Project(VarSData[i].Data(),Var[i].Data(),SignalCutData.Data());
 			cout << "Total S = " << HisSData[i]->Integral() << endl;
 			//	return;
 			HisBData[i] = new TH1D(VarBData[i].Data(),VarBData[i].Data(),Binning[i],Min[i],Max[i]);
 			//HisBData[i] = new TH1D(VarBData[i].Data(),VarBData[i].Data(),6,DyBin);
 
-			nt->Project(VarBData[i].Data(),Var[i].Data(),SideBandCut.Data());
+			nt->Project(VarBData[i].Data(),Var[i].Data(),SideBandCutData.Data());
 			cout << "Total B Before = " << HisBData[i]->Integral() << endl;
-		
+
 			HisSData[i]->Sumw2();
 			HisBData[i]->Sumw2();
 
-			
+
 			HisBData[i]->Scale(width/(sidemax-sidemin));
 			cout << "Total B  After = " << HisBData[i]->Integral() << endl;
 			//		cout << "Pass 1" << endl;
@@ -252,21 +259,21 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 			cout <<"Name = " << Name[i].Data() << endl;
 			FileName = Form("Plots/%s_%s_%d.pdf",Name[i].Data(),collsyst.Data(),j);
 			c->SaveAs(FileName.Data());
-			
+
 			YRatioYMC[i] = (TH1D * ) HisYData[i]->Clone();
 			YRatioYMC[i]->Divide(HisYMC[i]);
 			YRatioGMC[i] = (TH1D * ) HisYData[i]->Clone();
 			YRatioGMC[i]->Divide(HisGMC[i]);
 			YRatioYMC[i]->SetTitle(Form("%s YYMCRatio",HisName[i].Data()));
 			YRatioGMC[i]->SetTitle(Form("%s YGMCRatio",HisName[i].Data()));
-	
+
 
 
 			c->cd();
 
 			YRatioYMC[i]->SetMarkerColor(kBlue);
 			YRatioGMC[i]->SetMarkerColor(kGreen);
-	
+
 			YRatioYMC[i]->SetMinimum(0);
 			YRatioYMC[i]->SetMaximum(10);
 
@@ -287,6 +294,38 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 
 			FileName = Form("Plots/RatioPlots%s_%s_%d.pdf",Name[i].Data(),collsyst.Data(),j);
 			c->SaveAs(FileName.Data());
+		
+			
+			TCanvas* cBoth = new TCanvas("cBoth","cBoth",600,700);
+			TLine* lPull = new TLine(5.0, 0, 6.0, 0);
+			lPull->SetLineWidth(1);
+			lPull->SetLineStyle(7);
+			lPull->SetLineColor(1);
+
+			TPad* p1 = new TPad("p1","p1",0,0.3,1,1);
+			p1->SetBottomMargin(0);
+			p1->Draw();
+			p1->cd();
+			HisYData[i]->Draw();
+			HisYMC[i]->Draw("SAME");
+			HisGMC[i]->Draw("SAME");
+	        leg[i]->Draw("SAME");
+			cBoth->cd();
+			TPad* p2 = new TPad("p2","p2",0,0,1,0.3);
+			p2->SetTopMargin(0);
+			p2->SetBottomMargin(0.3);
+			p2->Draw();
+			p2->cd();
+
+			YRatioYMC[i]->Draw();
+			YRatioGMC[i]->Draw("SAME");
+			legRatio[i]->Draw("SAME");
+			lPull->Draw();
+			cBoth->cd();
+	
+			FileName = Form("Plots/Pull/RatioPlotsPull%s_%s_%d.pdf",Name[i].Data(),collsyst.Data(),j);
+			c->SaveAs(FileName.Data());
+
 
 			fout->cd();
 			HisYData[i]->Write();
@@ -295,10 +334,37 @@ void MCDataComparison(TString collsyst, TString inputdata, TString inputMC, TStr
 			YRatioYMC[i]->Write();
 			YRatioGMC[i]->Write();
 
+			if(doDebug == 1){
+				double cutLow = Min[i]+(Max[i]-Min[i])/Binning[i]*10;
+				double cutHigh = Min[i]+(Max[i]-Min[i])/Binning[i]*11;
+				TH1D * DebugMassY;
+				TH1D * DebugMassS = new TH1D("DebugMassS","DebugMassS",50,5,6);
+				TH1D * DebugMassB = new TH1D("DebugMassB","DebugMassB",50,5,6);
+				TH1D * DebugMassG = new TH1D("DebugMassG","DebugMassG",50,5,6);
+
+				cout << "cut low = " << cutLow << "  cut high = " <<  cutHigh << endl;
+				ntMC->Project("DebugMassS","Bmass");
+				ntMC->Project("DebugMassB","Bmass");
+				cout << "Signal Region Nu Cut = " << DebugMassS->Integral() << endl;
+				cout << "SidBand Region Nu Cut = " << DebugMassB->Integral() << endl;
+
+				ntMC->Project("DebugMassS","Bmass",Form("%s && %s > %f &&  %s < %f ",SignalCutMC.Data(),Var[i].Data(),cutLow,Var[i].Data(),cutHigh));
+				ntMC->Project("DebugMassB","Bmass",Form("%s && %s > %f &&  %s < %f ",SideBandCutMC.Data(),Var[i].Data(),cutLow,Var[i].Data(),cutHigh));
+				ntMC->Project("DebugMassG","Bmass",Form("%s && %s > %f &&  %s < %f ",GenCutMC.Data(),Var[i].Data(),cutLow,Var[i].Data(),cutHigh));
+
+				DebugMassB->Scale(width/(sidemax-sidemin));
+				DebugMassY = (TH1D *) DebugMassS->Clone("DebugMassY");
+				DebugMassY->Add(DebugMassB,-1);
+
+				cout << "Variable = " <<  Var[i].Data() <<  "  GenMatch Total = " << DebugMassG->Integral() << "   Sideband Total =  " <<  DebugMassY->Integral() << endl;
+
+			}
 
 
 		}
 	}
+
+
 
 }
 

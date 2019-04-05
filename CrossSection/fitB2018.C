@@ -2,7 +2,7 @@
 
 int _nBins = nBins;
 double *_ptBins = ptBins;
-void fitB(int usePbPb = 0, int fitOnSaved = 0, TString inputdata = "", TString inputmc = "", TString _varExp = "", TString trgselection = "",  TString cut = "", TString cutmcgen = "", int isMC = 0, Double_t luminosity = 1., int doweight = 0, TString collsyst = "", TString outputfile = "", TString outplotf = "", TString npfit = "", int doDataCor = 0, Float_t centmin = 0., Float_t centmax = 100.)
+void fitB2018(int usePbPb = 0, int fitOnSaved = 0, TString inputdata = "", TString inputmc = "", TString _varExp = "", TString trgselection = "",  TString cut = "", TString cutmcgen = "", int isMC = 0, Double_t luminosity = 1., int doweight = 0, TString collsyst = "", TString outputfile = "", TString outplotf = "", TString npfit = "", int doDataCor = 0, Float_t centmin = 0., Float_t centmax = 100.)
 {
 	collisionsystem=collsyst;
 	TString varExp = _varExp;
@@ -71,11 +71,8 @@ void fitB(int usePbPb = 0, int fitOnSaved = 0, TString inputdata = "", TString i
 		nt->AddFriend("hltanalysis/HltTree");
 		nt->AddFriend("hiEvtAnalyzer/HiTree");
 		nt->AddFriend("skimanalysis/HltTree");
-		nt->AddFriend("BDT_pt_15_20");
+		nt->AddFriend("BDT_pt_15_50");
 		nt->AddFriend("BDT_pt_7_15");
-		nt->AddFriend("BDT_pt_5_7");
-		nt->AddFriend("BDT_pt_20_50");	
-	
 		/*
 		   ntGen = (TTree*)infMC->Get("ntGen");
 		   ntGen->AddFriend("ntHlt");
@@ -101,10 +98,8 @@ void fitB(int usePbPb = 0, int fitOnSaved = 0, TString inputdata = "", TString i
 		ntMC->AddFriend("hltanalysis/HltTree");
 		ntMC->AddFriend("hiEvtAnalyzer/HiTree");
 		ntMC->AddFriend("skimanalysis/HltTree");
-		ntMC->AddFriend("BDT_pt_15_20");
 		ntMC->AddFriend("BDT_pt_7_15");
-		ntMC->AddFriend("BDT_pt_5_7");
-		ntMC->AddFriend("BDT_pt_20_50");	
+		ntMC->AddFriend("BDT_pt_15_50");	
 
 		ntMC->AddFriend("Bfinder/ntGen");
 	}
@@ -415,7 +410,7 @@ int main(int argc, char *argv[])
 	if(argc==19)
 	{
 		//fitB(atoi(argv[1]), atoi(argv[2]), argv[3], argv[4], argv[5], argv[6], argv[7], argv[8], argv[9], atoi(argv[10]), atof(argv[11]), atoi(argv[12]), argv[13], argv[14], argv[15], argv[16], atoi(argv[17]), atof(argv[18]), atof(argv[19]));
-		fitB(atoi(argv[1]), atoi(argv[2]), argv[3], argv[4], argv[5], argv[6], argv[7], argv[8], atoi(argv[9]), atof(argv[10]), atoi(argv[11]), argv[12], argv[13], argv[14], argv[15], atoi(argv[16]), atof(argv[17]), atof(argv[18]));
+		fitB2018(atoi(argv[1]), atoi(argv[2]), argv[3], argv[4], argv[5], argv[6], argv[7], argv[8], atoi(argv[9]), atof(argv[10]), atoi(argv[11]), argv[12], argv[13], argv[14], argv[15], atoi(argv[16]), atof(argv[17]), atof(argv[18]));
 
 	}
 	else
